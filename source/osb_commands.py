@@ -27,12 +27,15 @@ class Add(OSBcmd):
     permission number the default new role number found in osb.py but this can easily be changed.
     """
     async def execute(self, ctx, perm_num, role: discord.Role) -> None:
+        user = ctx.message.author
         if role.permissions.value != perm_num:
             await ctx.send('You do not have permission to add this role')
+        elif role in user.roles:
+            await ctx.send(f"You cannot add a role you already have @{user}")
         else:
             user = ctx.message.author
             await user.add_roles(role)
-            await ctx.send(f"Added {role} to {ctx.message.author}")
+            await ctx.send(f'Added {role} to @{user}')
 
 
 class Remove(OSBcmd):
@@ -40,9 +43,11 @@ class Remove(OSBcmd):
     Allows users to remove themselves to a role (that has a certain permission number).
     """
     async def execute(self, ctx, perm_num, role: discord.Role) -> None:
+        user = ctx.message.author
         if role.permissions.value != perm_num:
-            await ctx.send('You do not have permission to add this role')
+            await ctx.send('You do not have permission to remove this role')
+        elif role not in user.roles:
+            await ctx.send(f"You cannot remove a role you don't have @{user}")
         else:
-            user = ctx.message.author
             await user.remove_roles(role)
-            await ctx.send(f"Removed {role} from {ctx.message.author}")
+            await ctx.send(f"Removed {role} from @{user}")
