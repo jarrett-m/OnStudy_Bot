@@ -23,7 +23,7 @@ class OSB(commands.Bot):
             await self.cmds['add'].execute(ctx, self.perm_num, role)
 
         @self.command(name="remove")
-        async def remove(ctx, role: discord.Role):
+        async def remove(ctx, role):
             await self.cmds['remove'].execute(ctx, self.perm_num, role)
 
 
