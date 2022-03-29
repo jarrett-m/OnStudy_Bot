@@ -9,7 +9,8 @@ class OSB(commands.Bot):
         self.bot_commands()
         self.cmds = {'ping': cmd.Ping(),
                      'add': cmd.Add(),
-                     'remove': cmd.Remove()
+                     'remove': cmd.Remove(),
+                     'search': cmd.Search()
                      }
         self.perm_num = 1071698665025
 
@@ -25,6 +26,12 @@ class OSB(commands.Bot):
         @self.command(name="remove")
         async def remove(ctx, role):
             await self.cmds['remove'].execute(ctx, self.perm_num, role)
+
+        @self.command(name="search")
+        async def search(ctx, role):
+            choice = await self.cmds['search'].execute(ctx, self.perm_num, role)
+            if choice:
+                await self.cmds['add'].execute(ctx, self.perm_num, choice)
 
 
 bot = OSB(command_prefix="!")
