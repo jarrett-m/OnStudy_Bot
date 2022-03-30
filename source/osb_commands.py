@@ -78,6 +78,8 @@ class Search:
         if not role_names:
             await ctx.send(f"Could not find any roles close to that name... {user.mention}")
             return None
+        if len(role_names) > 5:
+            del role_names[5:]
 
         multiple_choice = BotMultipleChoice(ctx, role_names, "Search Results:")
         choice = await multiple_choice.run()
